@@ -1,0 +1,266 @@
+openapi: 3.0.0
+info:
+  title: Users
+  version: '1.0'
+  description: API for users model
+servers:
+  - url: 'http://localhost:3000/users'
+paths:
+  /insert:
+    post:
+      summary: New User
+      operationId: post-insert
+      responses:
+        '201':
+          description: Created
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: Insert new user to the database.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Token
+          required: true
+      tags:
+        - API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userName:
+                  type: string
+                fullName:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                phoneNumber:
+                  type: string
+                userTypeID:
+                  type: integer
+                userStateID:
+                  type: integer
+                groupID:
+                  type: integer
+                privilegeGroupID:
+                  type: integer
+                password:
+                  type: string
+                  format: password
+              required:
+                - userName
+                - fullName
+                - email
+                - phoneNumber
+                - userTypeID
+                - userStateID
+                - groupID
+                - privilegeGroupID
+                - password
+  /userStates:
+    get:
+      summary: Get User States
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-userStates
+      description: Return all the UserState records from the database.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /userTypes:
+    get:
+      summary: Get User Types
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-userTypes
+      description: Return all the UserType records from the database.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+  '/delete/{userID}':
+    delete:
+      summary: Delete User
+      operationId: delete-delete
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      tags:
+        - API
+      description: 'Softdelete user from the system, the user data will be saved in the database but it will not be shown to the users, and the user will not be able to signin.'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+    parameters:
+      - schema:
+          type: string
+        name: userID
+        in: path
+        required: true
+  /login:
+    post:
+      summary: Log In
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: Log in to the user account and give it Token.
+      tags:
+        - API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                  format: password
+                userName:
+                  type: string
+              required:
+                - password
+        description: The user should pass either his email or userName to log in along with his password.
+  /logOut:
+    get:
+      summary: Log Out
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+      operationId: get-logOut
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: Token
+          name: Authorization
+      description: End the user current session and delete his Token from the system.
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      x-tags:
+        - Model
+      properties:
+        userID:
+          type: integer
+        userName:
+          type: string
+        fullName:
+          type: string
+        email:
+          type: string
+          format: email
+        phoneNumber:
+          type: string
+        userTypeID:
+          description: 'UserType->userTypeID'
+          type: integer
+        userStateID:
+          description: 'UserState->userStateID'
+          type: integer
+        groupID:
+          description: 'Group->groupID'
+          type: integer
+        privilegeGroupID:
+          type: string
+          description: 'PrivilegeGroup->privilegeGroupID'
+        password:
+          type: string
+          format: password
+        createdBy:
+          type: integer
+          description: 'User->UserID'
+        updatedBy:
+          type: integer
+          description: 'User->UserID'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+      required:
+        - userID
+        - userName
+        - fullName
+        - email
+        - userTypeID
+        - userStateID
+        - privilegeGroupID
+        - password
+        - groupID
+    UserState:
+      title: UserState
+      type: object
+      properties:
+        userStateID:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - userStateID
+        - name
+      x-tags:
+        - Model
+      description: Users states inside the system.
+    UserType:
+      title: UserType
+      type: object
+      x-tags:
+        - Model
+      description: Users types inside the system.
+      properties:
+        userTypeID:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - userTypeID
+        - name
