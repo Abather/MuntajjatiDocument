@@ -1,0 +1,417 @@
+openapi: 3.0.0
+info:
+  title: Role Groups
+  version: '1.0'
+  description: 'Role Group Model '
+servers:
+  - url: 'http://localhost:3000/roleGroups'
+paths:
+  /insert:
+    post:
+      summary: New Role Group
+      operationId: post-insertRoleGroup
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+      tags:
+        - API
+      description: Add new role group to the database.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          required: true
+          description: Token
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+    parameters: []
+  '/copy/{roleGroupID}/privilegesTo/{roleGroupID}':
+    parameters:
+      - schema:
+          type: string
+        name: roleGroupID
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: roleGroupID
+        in: path
+        required: true
+    get:
+      summary: Set Role Group Privilege as Another
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Role Group Not Found
+      operationId: get-copy-roleGroupID-privilegesTo-roleGroupID
+      description: Set all the role group privileges to the given role group.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/add/{roleGroupID}/privilegesTo/{roleGroupID}':
+    parameters:
+      - schema:
+          type: string
+        name: roleGroupID
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: roleGroupID
+        in: path
+        required: true
+    get:
+      summary: Add True Privilege
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Role Group Not Found
+      operationId: get-add-roleGroupID-privilegesTo-roleGroupID
+      description: Set all true privilege to the second group and keep its true values.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /updateRoleGroupPrivileges:
+    post:
+      summary: Update Privileges (Mass)
+      operationId: post-update
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: Mass update privileges value to role group.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                roleGroupID:
+                  type: integer
+                privileges:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      privilegeID:
+                        type: string
+                      privilegeValue:
+                        type: boolean
+                    required:
+                      - privilegeID
+                      - privilegeValue
+              required:
+                - roleGroupID
+      tags:
+        - API
+    parameters: []
+  '/show/{roleGroupID}':
+    parameters:
+      - schema:
+          type: string
+        name: roleGroupID
+        in: path
+        required: true
+    get:
+      summary: Show Role Group
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-show-roleGroupID
+      description: Return role group main data along with its privileges values.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/delete/{roleGroupID}':
+    parameters:
+      - schema:
+          type: string
+        name: roleGroupID
+        in: path
+        required: true
+    delete:
+      summary: Delete Role Group
+      operationId: delete-delete-roleGroupID
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Role Group Not Found
+      tags:
+        - API
+      description: |-
+        Soft delete role group privilege, all its data and privilege values will be inside the database but users will not be able to view them.
+        In order to delete the role group it should not be linked to any user.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/resetPrivileges/{roleGroupID}':
+    parameters:
+      - schema:
+          type: string
+        name: roleGroupID
+        in: path
+        required: true
+    get:
+      summary: Reset Role Group Privileges
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-resetPrivileges-roleGroupID
+      description: Set role group privileges to the defualt value.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /update:
+    post:
+      summary: Update Role Group
+      operationId: post-update
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Role Group Not Found
+      description: update role group main data.
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                roleGroupID:
+                  type: integer
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - roleGroupID
+                - name
+  '/showUsers/{roleGroupID}':
+    get:
+      summary: Show Role Group Users
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Role Group Not Found
+      operationId: get-showUsers
+      description: return all linked user to the role group.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+    parameters:
+      - schema:
+          type: string
+        name: roleGroupID
+        in: path
+        required: true
+  /all:
+    get:
+      summary: All Role Groups (Not Paginated)
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-all
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      description: Return all role groups not paginated for lists like comboboxes ets.
+    post:
+      summary: All Role Groups (Paginated)
+      operationId: post-all
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      description: |-
+        return all role groups.
+        user can filter the role groups and specify the role groups per page.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      tags:
+        - API
+components:
+  schemas:
+    Privilege:
+      title: Privilege
+      type: object
+      x-tags:
+        - Model
+      properties:
+        privilegeID:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        parentPrivilegeID:
+          type: string
+          description: 'privilege->privilegeID'
+        defaultValue:
+          type: boolean
+          description: the value that will be assign to new role groups
+      required:
+        - privilegeID
+        - name
+        - defaultValue
+    RoleGroups:
+      title: RoleGroups
+      type: object
+      x-tags:
+        - Model
+      properties:
+        roleGroupID:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        createdBy:
+          type: integer
+          description: 'Users->userID'
+        updatedBy:
+          type: integer
+          description: 'Users->userID'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+      required:
+        - roleGroupID
+        - name
+        - createdBy
+    RoleGroupPrivilege:
+      title: RoleGroupPrivilege
+      type: object
+      x-tags:
+        - Model
+      properties:
+        roleGroupID:
+          type: integer
+          description: PK
+        privilegeID:
+          type: string
+          description: PK
+        privilegeValue:
+          type: boolean
+        createdBy:
+          type: integer
+          description: 'Users->userID'
+        updatedBy:
+          type: integer
+          description: 'Users->userID'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - roleGroupID
+        - privilegeID
+        - privilegeValue
+        - createdBy

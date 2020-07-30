@@ -299,7 +299,7 @@ paths:
           required: true
           description: Token
       description: Change user group
-  '/changePrivilegeGroup/{userID}/{privilegeGroupID}':
+  '/changeRoleGroup/{userID}/{RoleGroupID}':
     parameters:
       - schema:
           type: string
@@ -308,11 +308,11 @@ paths:
         required: true
       - schema:
           type: string
-        name: privilegeGroupID
+        name: RoleGroupID
         in: path
         required: true
     get:
-      summary: Change User Privileges Group
+      summary: Change User Role Group
       tags:
         - API
       responses:
@@ -322,7 +322,7 @@ paths:
           description: Unauthorized
         '404':
           description: User Not Found
-      operationId: get-changePrivilegeGroup-userID-privilegeGroupID
+      operationId: get-changeRoleGroup-userID-RoleGroupID
       parameters:
         - schema:
             type: string
@@ -330,7 +330,7 @@ paths:
           name: Authorization
           required: true
           description: Token
-      description: change user group privileges.
+      description: change user role group.
   /resetPassword:
     post:
       summary: Reset User Password
@@ -393,6 +393,43 @@ paths:
                 password:
                   type: string
                   format: password
+  /all:
+    get:
+      summary: All Users (Not Paginated)
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-all
+      description: Return all users not paginated
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+    post:
+      summary: All Users (Paginated)
+      operationId: post-all
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      tags:
+        - API
+      description: 'Return all users paginated, user can filter the users and speciy the users per page.'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
 components:
   schemas:
     User:
@@ -421,9 +458,9 @@ components:
         groupID:
           description: 'Group->groupID'
           type: integer
-        privilegeGroupID:
+        roleGroupID:
           type: string
-          description: 'PrivilegeGroup->privilegeGroupID'
+          description: 'RoleGroup->RoleGroupID'
         password:
           type: string
           format: password
@@ -450,7 +487,7 @@ components:
         - userTypeID
         - userStateID
         - groupID
-        - privilegeGroupID
+        - roleGroupID
         - password
     UserState:
       title: UserState
