@@ -111,6 +111,8 @@ paths:
           description: OK
         '401':
           description: Unauthorized
+        '404':
+          description: User Not Found
       tags:
         - API
       description: 'Softdelete user from the system, the user data will be saved in the database but it will not be shown to the users, and the user will not be able to signin.'
@@ -172,7 +174,130 @@ paths:
           in: header
           description: Token
           name: Authorization
+          required: true
       description: End the user current session and delete his Token from the system.
+  '/show/{userID}':
+    parameters:
+      - schema:
+          type: string
+        name: userID
+        in: path
+        required: true
+    get:
+      summary: Show User
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-show-userID
+      description: Show user data by given his userID.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Token
+  '/changeState/{userID}/{userStateID}':
+    parameters:
+      - schema:
+          type: string
+        name: userID
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userStateID
+        in: path
+        required: true
+    get:
+      summary: Change User State
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: User Not Found
+      operationId: get-changeState-userID-userStateID
+      description: Change the given userID to new state.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Token
+          required: true
+  '/changeType/{userID}/{userTypeID}':
+    parameters:
+      - schema:
+          type: string
+        name: userID
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userTypeID
+        in: path
+        required: true
+    get:
+      summary: Change User Type
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: User Not Found
+      operationId: get-changeType-userID-userTypeID
+      description: Change the given user type
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/changeGroup/{userID}/{groupID}':
+    parameters:
+      - schema:
+          type: string
+        name: userID
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: groupID
+        in: path
+        required: true
+    get:
+      summary: Change User Group
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: User Not Found
+      operationId: get-changeGroup-userID-groupID
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      description: Change user group
 components:
   schemas:
     User:
