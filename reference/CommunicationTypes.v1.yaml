@@ -1,0 +1,109 @@
+openapi: 3.0.0
+info:
+  title: CommunicationTypes
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000/communicationType'
+paths:
+  /insert:
+    post:
+      summary: New Communication Type
+      operationId: post-insert
+      responses:
+        '200':
+          description: OK
+      tags:
+        - API
+      description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          required: true
+          description: Token
+          name: Authorization
+  /update:
+    post:
+      summary: Update Communication Type Data
+      operationId: post-update
+      responses:
+        '200':
+          description: OK
+      tags:
+        - API
+      description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /all:
+    get:
+      summary: All Communication Type (Not Paginated)
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-all
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+    post:
+      summary: All Communication Types (Pagintated)
+      operationId: post-all
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+components:
+  schemas:
+    CommunicationType:
+      title: CommunicationType
+      type: object
+      x-tags:
+        - Model
+      properties:
+        communicationID:
+          type: string
+        name:
+          type: string
+        website:
+          type: string
+        accountsPrefix:
+          type: string
+        logoPath:
+          type: string
+        createdBy:
+          type: integer
+          description: 'Users->userID'
+        updatedBy:
+          type: integer
+          description: 'Users->userID'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - communicationID
+        - name
