@@ -1,0 +1,19 @@
+title: CommunicationTypes
+type: object
+x-tags:
+  - Model
+description: ''
+properties:
+  communicationID:
+    type: string
+  name:
+    type: string
+  website:
+    type: string
+  accountsPrefix:
+    type: string
+  logoPath:
+    type: string
+required:
+  - communicationID
+  - name

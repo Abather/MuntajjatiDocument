@@ -1,0 +1,41 @@
+title: CommunicationData
+type: object
+x-tags:
+  - Model
+description: ''
+properties:
+  communicationDataID:
+    type: string
+  communicationTypeID:
+    type: string
+  relatedID:
+    type: integer
+  relatedModel:
+    type: string
+  account:
+    type: string
+    description: UN
+  note:
+    type: string
+  createdBy:
+    type: integer
+    description: 'Users->userID'
+  updatedBy:
+    type: integer
+    description: 'Users->userID'
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  deleted_at:
+    type: string
+    format: date-time
+required:
+  - communicationDataID
+  - communicationTypeID
+  - relatedID
+  - relatedModel
+  - account
+  - createdBy

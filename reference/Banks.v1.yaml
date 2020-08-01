@@ -1,0 +1,254 @@
+openapi: 3.0.0
+info:
+  title: Banks
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000/banks'
+paths:
+  /insert:
+    post:
+      summary: New Bank
+      operationId: post-insert
+      responses:
+        '201':
+          description: Created
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /update:
+    post:
+      summary: Update Bank
+      operationId: post-update
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '404':
+          description: Bank Not Found
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      description: Update bank information.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/delete/{bankID}':
+    parameters:
+      - schema:
+          type: string
+        name: bankID
+        in: path
+        required: true
+    delete:
+      summary: Delete Bank
+      operationId: delete-delete-bankID
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Bank Not Found
+      tags:
+        - API
+      description: Soft delete bank from the system.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/show/{bankID}':
+    parameters:
+      - schema:
+          type: string
+        name: bankID
+        in: path
+        required: true
+    get:
+      summary: Show Bank
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Bank Not Found
+      operationId: get-show-bankID
+      description: Return all bank information and related data like communication information.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /all:
+    get:
+      summary: All Banks (Not Paginated)
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-all
+      description: Return all bank in the system not paginated used inside combobox or ...etc
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+    post:
+      summary: All Banks (Paginated)
+      operationId: post-all
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      tags:
+        - API
+      description: |-
+        Return all bank in the system with pagination.
+        also it can be filtered and specified the number of items per page.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /insertCommunication:
+    post:
+      summary: New Bank Comm. Data
+      operationId: post-insertCommunication
+      responses:
+        '201':
+          description: Created
+        '304':
+          description: Not Modified
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: Add new communication information that related to bank.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      tags:
+        - API
+  /updateCommunication:
+    post:
+      summary: Update Comm. Data
+      operationId: post-updateCommunication
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '404':
+          description: Data Not Found
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      tags:
+        - API
+      description: ''
+  /deleteCommunication:
+    delete:
+      summary: Delete Comm. Data
+      operationId: delete-deleteCommunication
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '404':
+          description: Data Not Found
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      tags:
+        - API
+      description: ''
+components:
+  schemas:
+    Bank:
+      title: Bank
+      type: object
+      properties:
+        bankID:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        IBANPrefix:
+          type: string
+          description: UN
+        createdBy:
+          description: 'Users->userID'
+          type: integer
+        updatedBy:
+          description: 'Users->userID'
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+      required:
+        - bankID
+        - name
+        - createdBy
+      x-tags:
+        - Model

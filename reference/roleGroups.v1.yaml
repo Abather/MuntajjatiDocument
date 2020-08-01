@@ -70,7 +70,7 @@ paths:
           name: Authorization
           required: true
           description: Token
-  '/add/{roleGroupID}/privilegesTo/{roleGroupID}':
+  '/append/{roleGroupID}/privilegesTo/{roleGroupID}':
     parameters:
       - schema:
           type: string
@@ -83,7 +83,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Add True Privilege
+      summary: Append True Privilege
       tags:
         - API
       responses:
@@ -329,6 +329,61 @@ paths:
           description: Token
       tags:
         - API
+  '/compare/{roleGroupID}/privilegesWith/{roleGroupID}':
+    parameters:
+      - schema:
+          type: string
+        name: roleGroupID
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: roleGroupID
+        in: path
+        required: true
+    get:
+      summary: Compare Privileges
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-compare-roleGroupID-privilegesWith-reoleGroupID
+      description: compare tow role groups and retrun the diffrent.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/compare/{roleGroupID}/privilegesWithDefault':
+    parameters:
+      - schema:
+          type: string
+        name: roleGroupID
+        in: path
+        required: true
+    get:
+      summary: Compare Privileges With Default
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-compare-roleGroupID-privilegesWithDefault
+      description: Compare role group privileges with the default values and retrun the different.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
 components:
   schemas:
     Privilege:

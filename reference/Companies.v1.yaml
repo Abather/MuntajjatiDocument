@@ -1,0 +1,800 @@
+openapi: 3.0.0
+info:
+  title: Companies
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000/companies'
+paths:
+  /insert:
+    post:
+      summary: New Company
+      operationId: post-insert
+      responses:
+        '201':
+          description: Created
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      description: Insert new company into the system.
+  /update:
+    post:
+      summary: Update Company Data
+      operationId: post-update
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      description: ''
+  '/delete/{companyID}':
+    parameters:
+      - schema:
+          type: string
+        name: companyID
+        in: path
+        required: true
+    delete:
+      summary: Delete Company
+      operationId: delete-delete-companyID
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '404':
+          description: Company Not Found
+      tags:
+        - API
+      description: 'Soft delete company from the system and all of its related data like representivies, comm. data and bank accounts.'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/show/{companyID}':
+    parameters:
+      - schema:
+          type: string
+        name: companyID
+        in: path
+        required: true
+    get:
+      summary: Show Company
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Company Not Found
+      operationId: get-show-companyID
+      description: 'Return company data and all of its related data like representatives, bank accounts, communication data ... etc.'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /all:
+    get:
+      summary: All Companies (Not Paginated)
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-all
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+    post:
+      summary: All Companies (Not Paginated)
+      operationId: post-all
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /representatives/insert:
+    post:
+      summary: New Representative
+      operationId: post-representatives-insert
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /representatives/update:
+    post:
+      summary: Update Representative Data
+      operationId: post-representatives-update
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /representatives/delete:
+    delete:
+      summary: Delete Representative
+      operationId: delete-representatives-delete
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/representatives/all/{companyID}':
+    parameters:
+      - schema:
+          type: string
+        name: companyID
+        in: path
+        required: true
+    get:
+      summary: Show Company Representative
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-representatives-all-companyID
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/representatives/show/{representativesID}':
+    parameters:
+      - schema:
+          type: string
+        name: representativesID
+        in: path
+        required: true
+    get:
+      summary: Show Representative Data
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-representatives-show-representativesID
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /banks/insert:
+    post:
+      summary: New Bank Account
+      operationId: post-bank-insert
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      tags:
+        - API
+      description: Insert new bank account to company.
+    parameters: []
+  /banks/update:
+    post:
+      summary: Update Bank Account Data
+      operationId: post-bank-update
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+    parameters: []
+  '/banks/delete/{bankAccountID}':
+    parameters:
+      - schema:
+          type: string
+        name: bankAccountID
+        in: path
+        required: true
+    delete:
+      summary: Delete Bank Account
+      operationId: delete-banks-delete-bankAccountID
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+      tags:
+        - API
+  '/banks/all/{companyID}':
+    parameters:
+      - schema:
+          type: string
+        name: companyID
+        in: path
+        required: true
+    get:
+      summary: Show All Company Bank Accounts
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-bank-all-companyID
+      description: Return all related bank account to the company.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/banks/show/{bankAccountID}':
+    parameters:
+      - schema:
+          type: string
+        name: bankAccountID
+        in: path
+        required: true
+    get:
+      summary: Show Bank Account Data
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Bank Account Not Found
+      operationId: get-bank-show-bankAccountID
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /communication/insert:
+    post:
+      summary: New Comm. Data
+      operationId: post-communication-insert
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /communication/update:
+    post:
+      summary: Update Comm. Data
+      operationId: post-communication-update
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          required: true
+          name: Authorization
+          description: Token
+  '/communication/delete/{communicationID}':
+    parameters:
+      - schema:
+          type: string
+        name: communicationID
+        in: path
+        required: true
+    delete:
+      summary: Delete Comm. Data
+      operationId: delete-communication-delete-communicationID
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/communication/all/{companyID}':
+    parameters:
+      - schema:
+          type: string
+        name: companyID
+        in: path
+        required: true
+    get:
+      summary: Get Company Comm. Data
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-communication-all-companyID
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+      description: ''
+  /representatives/communications/insert:
+    post:
+      summary: New Representative Comm. Data
+      operationId: post-representatives-communications-insert
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: ''
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /representatives/communications/update:
+    post:
+      summary: Update Representative Comm. Data
+      operationId: post-representatives-communications-update
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /representatives/communications/delete:
+    delete:
+      summary: Delete Representative Comm. Data
+      operationId: delete-representatives-communications-delete
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  '/representatives/communications/all/{representativID}':
+    parameters:
+      - schema:
+          type: string
+        name: representativID
+        in: path
+        required: true
+    get:
+      summary: Show All Representative Comm. Data
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-representatives-communications-all-representativID
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /representativeType/insert:
+    post:
+      summary: New Representative Type
+      operationId: post-representativeType-insert
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /representativeType/update:
+    post:
+      summary: Update Representative Type Data
+      operationId: post-representativeType-update
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      tags:
+        - API
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+  /representativeType/all:
+    get:
+      summary: All Representative Type
+      tags:
+        - API
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      operationId: get-representativeType-all
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Token
+components:
+  schemas:
+    Company:
+      title: company
+      type: object
+      properties:
+        companyID:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        companyTypeID:
+          type: string
+          description: 'CompanyType->companyTypeID'
+        commercialRegistrationNumber:
+          type: string
+          description: UN
+        VATAccountNumber:
+          type: string
+          description: UN
+        VATCertificateNumber:
+          type: string
+          description: UN
+        payableAccount:
+          type: string
+          description: UN
+        receivableAccount:
+          type: string
+          description: UN
+        createdBy:
+          type: integer
+          description: 'Users->userID'
+        updatedBy:
+          type: integer
+          description: 'Users->userID'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+      required:
+        - companyID
+        - name
+        - companyTypeID
+        - createdBy
+      x-tags:
+        - Model
+      description: This model will stored the data of customers and venders.
+    CompanyType:
+      title: CompanyType
+      type: object
+      properties:
+        companyTypeID:
+          type: integer
+        name:
+          type: string
+        descrption:
+          type: string
+      required:
+        - companyTypeID
+        - name
+      x-tags:
+        - Model
+    RepresentativeType:
+      title: RepresentativeType
+      type: object
+      x-tags:
+        - Model
+      properties:
+        RepresentativeTypeID:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        createdBy:
+          description: 'Users->userID'
+          type: integer
+        updatedBy:
+          description: 'Users->userID'
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+      required:
+        - RepresentativeTypeID
+        - name
+        - createdBy
+    CompanyRepresentatives:
+      title: CompanyRepresentatives
+      type: object
+      x-tags:
+        - Model
+      description: "This model will store the data of the company's representatives like salesman, or purchase speicalites."
+      properties:
+        representativesID:
+          type: string
+        name:
+          type: string
+        userID:
+          type: integer
+          description: 'Users->userID'
+        copmanyID:
+          type: integer
+          description: 'Companies->companyID'
+        representativesTypeID:
+          description: 'RepresentativesType->representativesTypeID'
+          type: integer
+        companyBranch:
+          type: string
+        createdBy:
+          description: 'Users->userID'
+          type: integer
+        updatedBy:
+          description: 'Users->userID'
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+      required:
+        - representativesID
+        - name
+        - copmanyID
+        - representativesTypeID
+        - createdBy
+    CompanyBankAccount:
+      title: CompanyBankAccount
+      type: object
+      x-tags:
+        - Model
+      properties:
+        bankAccountID:
+          type: integer
+        bankID:
+          type: integer
+          description: 'Banks->bankID'
+        copmanyID:
+          type: integer
+          description: 'Companies->companyID'
+        accountNumber:
+          type: string
+        IBAN:
+          type: string
+          description: UN
+        note:
+          type: string
+        createdBy:
+          description: 'Users->userID'
+          type: integer
+        updatedBy:
+          description: 'Users->userID'
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+      required:
+        - bankAccountID
+        - bankID
+        - copmanyID
+        - createdBy
